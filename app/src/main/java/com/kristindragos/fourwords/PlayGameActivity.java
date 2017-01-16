@@ -1,23 +1,82 @@
 package com.kristindragos.fourwords;
 
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
+
 public class PlayGameActivity extends AppCompatActivity {
     private GameBoard board;
+    private ArrayList<String> previousWords;
+    private ArrayAdapter<String> adapter;
+    private DictionaryDelegate delegate;
+    private TextView timerText;
+    private CountDownTimer timer;
+    private long timeLeft = 0;
+    private final long threeMinuteTimer = 180000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play_game);
+        timerText = (TextView) findViewById(R.id.tv_timer);
         board = new GameBoard();
         board.generateNewBoard();
         SetupBoardInView();
         clearWord();
+        setUpTrackingWords();
+        // Create timer.
+        setupTimer(threeMinuteTimer);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        // Continue timer.
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        // Create new timer with time left.
+        setupTimer(timeLeft);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        // Cancel timer
+        timer.cancel();
+    }
+
+    private void setupTimer(long totalTimeRemaining) {
+        timer = new CountDownTimer(totalTimeRemaining, 1000) {
+            @Override
+            public void onTick(long timeRemaining) {
+                timeLeft = timeRemaining;
+                long minutes = timeRemaining / 1000 / 60;
+
+                String convertedTime = String.format("%01d:%02d",
+                        TimeUnit.MILLISECONDS.toMinutes(timeRemaining) -
+                                TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(timeRemaining)),
+                        TimeUnit.MILLISECONDS.toSeconds(timeRemaining) -
+                                TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(timeRemaining)));
+                timerText.setText(convertedTime);
+            }
+
+            @Override
+            public void onFinish() {
+                timerText.setText("Done!");
+            }
+        }.start();
     }
 
     public void addToWord(View view) {
@@ -35,12 +94,34 @@ public class PlayGameActivity extends AppCompatActivity {
 
     public void scoreWord(View view) {
         TextView currentWord = (TextView) findViewById(R.id.txt_current_word);
-        Toast.makeText(getApplicationContext(), currentWord.getText(), Toast.LENGTH_SHORT).show();
+        // Only works if the text entered actually contains data.
+        if (!currentWord.getText().toString().isEmpty()) {
+            Toast.makeText(getApplicationContext(), currentWord.getText(), Toast.LENGTH_SHORT).show();
 
-        // TODO: Call to dictionary to see if it's a word.
-        // TODO: Score points based on length.
+            // Call to dictionary to see if it's a word.
+            delegate.isInDictionary(currentWord.getText().toString(), adapter, previousWords);
 
-        currentWord.setText("");
+            // TODO: Score points based on length.
+
+            currentWord.setText("");
+        }
+    }
+
+    private void setUpTrackingWords(){
+        previousWords = new ArrayList<>();
+        adapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.previous_words, R.id.previous_words_textView, previousWords);
+        ListView previousWordsListView = (ListView) findViewById(R.id.lv_previous_words);
+        previousWordsListView.setAdapter(adapter);
+        delegate = new DictionaryDelegate();
+
+    }
+
+    private void prepopulateData() {
+        previousWords.add("SOME");
+        previousWords.add("OTHER");
+        previousWords.add("GOES");
+        previousWords.add("BOAT");
+
     }
 
     private void clearWord() {
