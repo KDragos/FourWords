@@ -26,16 +26,6 @@ public class DictionaryDelegate extends AppCompatActivity {
     protected ArrayAdapter adapter;
     protected ArrayList<String> previousWords;
 
-    public boolean setupConnection(String word) throws IOException {
-
-        return true;
-    }
-
-    private void readStream(InputStream in) {
-
-        // Do something here.
-    }
-
     public void isInDictionary(String word, ArrayAdapter adapter, ArrayList<String> previousWords) {
         this.adapter = adapter;
         this.previousWords = previousWords;
@@ -131,5 +121,8 @@ public class DictionaryDelegate extends AppCompatActivity {
         adapter.notifyDataSetChanged();
     }
 
+    public ArrayList<String> getWordList() {
+        return this.previousWords;
+    }
 
 }

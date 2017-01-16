@@ -1,8 +1,10 @@
 package com.kristindragos.fourwords;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -14,6 +16,7 @@ import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 public class PlayGameActivity extends AppCompatActivity {
+    private static String TAG = "PlayGameActivity";
     private GameBoard board;
     private ArrayList<String> previousWords;
     private ArrayAdapter<String> adapter;
@@ -33,7 +36,6 @@ public class PlayGameActivity extends AppCompatActivity {
         SetupBoardInView();
         clearWord();
         setUpTrackingWords();
-        // Create timer.
         setupTimer(threeMinuteTimer);
     }
 
@@ -75,8 +77,45 @@ public class PlayGameActivity extends AppCompatActivity {
             @Override
             public void onFinish() {
                 timerText.setText("Done!");
+                endOfGame();
             }
         }.start();
+    }
+
+    private void endOfGame() {
+        previousWords = delegate.getWordList();
+        int gameScore = 0;
+        for (String word: previousWords) {
+            gameScore += getScore(word);
+        }
+        Log.v(TAG, "Your final score: " + String.valueOf(gameScore));
+        Toast.makeText(getApplicationContext(), "Final score: " + String.valueOf(gameScore), Toast.LENGTH_LONG).show();
+        Intent intent = new Intent(this, FinalGameScoreActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("playerScore", String.valueOf(gameScore));
+        bundle.putStringArrayList("playerWords", previousWords);
+        intent.putExtras(bundle);
+        startActivity(intent);
+
+    }
+
+    private int getScore(String word) {
+        if (word.length() == 3 || word.length() == 4) {
+            return 1;
+        }
+        if (word.length() == 5) {
+            return 2;
+        }
+        if (word.length() == 6) {
+            return 3;
+        }
+        if (word.length() == 7) {
+            return 4;
+        }
+        if (word.length() >= 8) {
+            return 11;
+        }
+        return 0;
     }
 
     public void addToWord(View view) {
@@ -96,10 +135,14 @@ public class PlayGameActivity extends AppCompatActivity {
         TextView currentWord = (TextView) findViewById(R.id.txt_current_word);
         // Only works if the text entered actually contains data.
         if (!currentWord.getText().toString().isEmpty()) {
-            Toast.makeText(getApplicationContext(), currentWord.getText(), Toast.LENGTH_SHORT).show();
 
             // Call to dictionary to see if it's a word.
             delegate.isInDictionary(currentWord.getText().toString(), adapter, previousWords);
+
+            if ((delegate.getWordList().size() > 0) && (delegate.getWordList().size() % 4 == 0)) {
+                board.generateNewBoard();
+                SetupBoardInView();
+            }
 
             // TODO: Score points based on length.
 
@@ -113,14 +156,6 @@ public class PlayGameActivity extends AppCompatActivity {
         ListView previousWordsListView = (ListView) findViewById(R.id.lv_previous_words);
         previousWordsListView.setAdapter(adapter);
         delegate = new DictionaryDelegate();
-
-    }
-
-    private void prepopulateData() {
-        previousWords.add("SOME");
-        previousWords.add("OTHER");
-        previousWords.add("GOES");
-        previousWords.add("BOAT");
 
     }
 
