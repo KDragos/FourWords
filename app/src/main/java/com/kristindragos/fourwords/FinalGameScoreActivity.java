@@ -42,9 +42,10 @@ public class FinalGameScoreActivity extends AppCompatActivity {
     }
 
     public void playAgain(View view) {
-//        Intent intent = new Intent(this, PlayGameActivity.class);
-//        startActivity(intent);
         Log.v(TAG, "You want to play again!");
+        Intent intent = new Intent(FinalGameScoreActivity.this, PlayGameActivity.class);
+        intent.putExtra("restart", true);
+        startActivity(intent);
     }
 
     private void updateUI() {

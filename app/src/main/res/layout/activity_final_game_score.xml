@@ -95,11 +95,11 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
     </LinearLayout>
 
-    <!--<Button-->
-        <!--android:text="Rematch"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:id="@+id/btn_rematch"-->
-        <!--android:onClick="playAgain" />-->
+    <Button
+        android:text="Rematch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_rematch"
+        android:onClick="playAgain" />
 
 </LinearLayout>

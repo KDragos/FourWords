@@ -32,11 +32,7 @@ public class PlayGameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_play_game);
         timerText = (TextView) findViewById(R.id.tv_timer);
         board = new GameBoard();
-        board.generateNewBoard();
-        SetupBoardInView();
-        clearWord();
-        setUpTrackingWords();
-        setupTimer(threeMinuteTimer);
+        setUpNewGame();
     }
 
     @Override
@@ -48,8 +44,15 @@ public class PlayGameActivity extends AppCompatActivity {
     @Override
     protected void onRestart() {
         super.onRestart();
-        // Create new timer with time left.
-        setupTimer(timeLeft);
+        if (getIntent().getExtras() != null) {
+            if(getIntent().hasExtra("restart")) {
+                setUpNewGame();
+            }
+        } else {
+            // Create new timer with time left.
+            setupTimer(timeLeft);
+        }
+
     }
 
     @Override
@@ -57,6 +60,14 @@ public class PlayGameActivity extends AppCompatActivity {
         super.onPause();
         // Cancel timer
         timer.cancel();
+    }
+
+    private void setUpNewGame() {
+        board.generateNewBoard();
+        SetupBoardInView();
+        clearWord();
+        setUpTrackingWords();
+        setupTimer(threeMinuteTimer);
     }
 
     private void setupTimer(long totalTimeRemaining) {
