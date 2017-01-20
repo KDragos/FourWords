@@ -21,6 +21,8 @@ import java.util.ArrayList;
 
 /**
  * Created by kristin on 1/14/17.
+ *
+ * DictionaryDelegate handles the dictionary API connection, call, and response.
  */
 
 public class DictionaryDelegate extends AppCompatActivity {
@@ -54,8 +56,8 @@ public class DictionaryDelegate extends AppCompatActivity {
 
         @Override
         protected Double doInBackground(String... strings) {
-            currentWord = strings[0].toString();
-            Double numEntries = new Double(0);
+            currentWord = strings[0];
+            Double numEntries = 0d;
             try {
                 final String DICTIONARY_BASE_URL = "http://api.pearson.com/v2/dictionaries/entries?";
                 final String HEADWORD_PARAM = "headword";
@@ -67,7 +69,7 @@ public class DictionaryDelegate extends AppCompatActivity {
 
 
                 InputStream inputStream = urlConnection.getInputStream();
-                StringBuffer buffer = new StringBuffer();
+                StringBuilder buffer = new StringBuilder();
                 if (inputStream == null) {
 //                nothing to do
                     Log.d(TAG, "Input stream was null.");
@@ -76,7 +78,7 @@ public class DictionaryDelegate extends AppCompatActivity {
                 reader = new BufferedReader(new InputStreamReader(inputStream));
                 String line;
                 while ((line = reader.readLine()) != null) {
-                    buffer.append(line + "\n");
+                    buffer.append(line).append("\n");
 
                 }
                 if (buffer.length() == 0) {
@@ -102,7 +104,7 @@ public class DictionaryDelegate extends AppCompatActivity {
                 }
             }
             try {
-                return new Double(getNumberOfDictionaryEntries(dictionaryResponse));
+                return getNumberOfDictionaryEntries(dictionaryResponse);
             } catch (JSONException e) {
                 Log.e(TAG, e.getMessage(), e);
                 e.printStackTrace();
@@ -112,8 +114,7 @@ public class DictionaryDelegate extends AppCompatActivity {
 
         private double getNumberOfDictionaryEntries(String dictionaryResponse) throws JSONException {
             JSONObject entries = new JSONObject(dictionaryResponse);
-            double numEntries = entries.getDouble("total");
-            return numEntries;
+            return entries.getDouble("total");
         }
 
         @Override

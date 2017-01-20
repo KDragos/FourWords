@@ -13,8 +13,6 @@ import android.view.View;
 
 public class FindGameActivity extends AppCompatActivity {
     private static final String TAG = "FindGameActivity";
-    private static String SHARE_HASHTAG = "#FourWords";
-    private String shareStr = "Think your word creation skills are better than mine? Play FourWords to find out! ";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,8 +22,8 @@ public class FindGameActivity extends AppCompatActivity {
     }
 
     public void startSoloGame(View view) {
-        Intent intent = new Intent(this, PlayGameActivity.class);
-        startActivity(intent);
+//        Intent intent = new Intent(this, PlayGameActivity.class);
+        startActivity(new Intent(this, PlayGameActivity.class));
 
     }
 
@@ -63,9 +61,11 @@ public class FindGameActivity extends AppCompatActivity {
     private Intent createShareGameIntent() {
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
         Log.d(TAG, "Creating share intent.");
-        shareIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+        shareIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
         shareIntent.setType("text/plain");
-        shareIntent.putExtra(Intent.EXTRA_TEXT, shareStr + SHARE_HASHTAG);
+        String shareHashTag = "#FourWords";
+        String shareStr = "Think your word creation skills are better than mine? Play FourWords to find out! ";
+        shareIntent.putExtra(Intent.EXTRA_TEXT, shareStr + shareHashTag);
         return shareIntent;
     }
 }

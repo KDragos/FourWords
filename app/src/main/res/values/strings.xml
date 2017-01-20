@@ -13,5 +13,6 @@
     <string name="rules_d">After you enter four words, your game board will shuffle.</string>
     <string name="rules_e">You have three minutes to create as many words as you can. The longer the word, the more points it\'s worth.</string>
     <string name="rules_f">Be careful though. Enter a word that\'s not in the dictionary, you\'ll lose a point.</string>
+    <string name="timer_done">Done!</string>
 
 </resources>

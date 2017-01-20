@@ -11,6 +11,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 public class PlayGameActivity extends AppCompatActivity {
@@ -36,7 +37,7 @@ public class PlayGameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_play_game);
         timerText = (TextView) findViewById(R.id.tv_timer);
         board = new GameBoard();
-        bestWords = new ArrayList<String>();
+        bestWords = new ArrayList<>();
         setUpNewGame();
     }
 
@@ -82,7 +83,8 @@ public class PlayGameActivity extends AppCompatActivity {
                 timeLeft = timeRemaining;
                 long minutes = timeRemaining / 1000 / 60;
 
-                String convertedTime = String.format("%01d:%02d",
+                String convertedTime;
+                convertedTime = String.format(Locale.getDefault(), "%01d:%02d",
                         TimeUnit.MILLISECONDS.toMinutes(timeRemaining) -
                                 TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(timeRemaining)),
                         TimeUnit.MILLISECONDS.toSeconds(timeRemaining) -
@@ -92,7 +94,7 @@ public class PlayGameActivity extends AppCompatActivity {
 
             @Override
             public void onFinish() {
-                timerText.setText("Done!");
+                timerText.setText(R.string.timer_done);
                 endOfGame();
             }
         }.start();
@@ -124,7 +126,7 @@ public class PlayGameActivity extends AppCompatActivity {
             return;
         }
         if(word.length() > lengthOfBestWords) {
-            bestWords = new ArrayList<String>();
+            bestWords = new ArrayList<>();
             bestWords.add(word);
             lengthOfBestWords = word.length();
         }
@@ -159,7 +161,7 @@ public class PlayGameActivity extends AppCompatActivity {
             TextView currentWord = (TextView) findViewById(R.id.txt_current_word);
 
             // Add to the current word and set it as the new.
-            currentWord.setText(currentWord.getText().toString() + button.getText().toString());
+            currentWord.setText(currentWord.getText().toString().concat(button.getText().toString()));
 //            Snackbar.make(findViewById(android.R.id.content), "Had a snack at Snackbar", Snackbar.LENGTH_LONG).setAction("Action", null).show();
 
             // Disable Button.
@@ -171,7 +173,7 @@ public class PlayGameActivity extends AppCompatActivity {
         TextView currentWord = (TextView) findViewById(R.id.txt_current_word);
         // Only works if the text entered actually contains data and has at least 3 characters.
         if (!currentWord.getText().toString().isEmpty() && currentWord.getText().toString().length() >= 3) {
-            int currentNonWords = delegate.getNumberOfNonWords();
+
             // Call to dictionary to see if it's a word.
             delegate.isInDictionary(currentWord.getText().toString(), adapter, previousWords, findViewById(android.R.id.content));
 
@@ -190,7 +192,7 @@ public class PlayGameActivity extends AppCompatActivity {
 
     private void setUpTrackingWords(){
         previousWords = new ArrayList<>();
-        adapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.previous_words, R.id.previous_words_textView, previousWords);
+        adapter = new ArrayAdapter<>(getApplicationContext(), R.layout.previous_words, R.id.previous_words_textView, previousWords);
         ListView previousWordsListView = (ListView) findViewById(R.id.lv_previous_words);
         previousWordsListView.setAdapter(adapter);
         delegate = new DictionaryDelegate(PlayGameActivity.this);
@@ -219,7 +221,7 @@ public class PlayGameActivity extends AppCompatActivity {
 
         // Adding each button to the allButtons list individually,
         // prevents disabled buttons from being removed from the list.
-        allButtons = new ArrayList<View>();
+        allButtons = new ArrayList<>();
 
 //      Setup Row 1
         Button c1r1 = (Button) findViewById(R.id.btn_gamecube1_1);

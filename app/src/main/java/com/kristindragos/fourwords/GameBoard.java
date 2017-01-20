@@ -7,24 +7,20 @@ import java.util.List;
 
 /**
  * Created by kristin on 1/14/17.
+ *
+ * GameBoard contains all available dice for the game in addition to the game board.
+ *
+ * A helper method (getCubeValueAt) retrieves the cube at a certain location on the gameboard.
+ * GenerateNewBoard will create a brand new board with the available dice and add them to the layout.
  */
 
-public class GameBoard {
+class GameBoard {
     private List<GameCube> availableDice;
     private List<List<GameCube>> board;
 
-    public GameBoard() {
-    }
+    void generateNewBoard() {
 
-    public List<GameCube> getAvailableDice() {
-        return availableDice;
-    }
-
-    public void setAvailableDice(List<GameCube> availableDice) {
-        this.availableDice = availableDice;
-    }
-
-    public void generateNewBoard() {
+        //TODO: Refactor this to only create the available dice once. On generate, call rollDice on the cube to get a new value.
         // Create dice
         createAvailableDice();
 
@@ -32,7 +28,7 @@ public class GameBoard {
         generateBoardLayout();
     }
 
-    public String getCubeValueAt(int column, int row) {
+    String getCubeValueAt(int column, int row) {
         return board.get(column - 1).get(row - 1).getCurrentValue();
     }
 
@@ -43,7 +39,7 @@ public class GameBoard {
         List<GameCube> row2 = Arrays.asList(availableDice.get(4), availableDice.get(5), availableDice.get(6), availableDice.get(7));
         List<GameCube> row3 = Arrays.asList(availableDice.get(8), availableDice.get(9), availableDice.get(10), availableDice.get(11));
         List<GameCube> row4 = Arrays.asList(availableDice.get(12), availableDice.get(13), availableDice.get(14), availableDice.get(15));
-        board = new ArrayList<List<GameCube>>();
+        board = new ArrayList<>();
         board.add(0, row1);
         board.add(1, row2);
         board.add(2, row3);
@@ -52,7 +48,7 @@ public class GameBoard {
 
     // Creates the 16 dice.
     private void createAvailableDice() {
-        availableDice = new ArrayList<GameCube>();
+        availableDice = new ArrayList<>();
         List<String> dice1Values = Arrays.asList("R", "I", "F", "O", "B", "X");
         GameCube cube1 = new GameCube(dice1Values);
         availableDice.add(cube1);
@@ -67,7 +63,7 @@ public class GameBoard {
 
         List<String> dice4values = Arrays.asList("U", "T", "O", "K", "N", "D");
         GameCube cube4 = new GameCube(dice4values);
-        availableDice.add(cube3);
+        availableDice.add(cube4);
 
         List<String> dice5values = Arrays.asList("H", "M", "S", "R", "A", "O");
         GameCube cube5 = new GameCube(dice5values);
@@ -86,7 +82,7 @@ public class GameBoard {
         availableDice.add(cube8);
 
         List<String> dice9values = Arrays.asList("Qu", "B", "M", "J", "O", "A");
-        GameCube cube9 = new GameCube(dice8values);
+        GameCube cube9 = new GameCube(dice9values);
         availableDice.add(cube9);
 
         List<String> dice10values = Arrays.asList("E", "H", "I", "S", "P", "N");

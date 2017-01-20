@@ -4,66 +4,31 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Created by kristin on 1/14/17.
+ * Created by Kristin Dragos on 1/14/17.
+ *
+ * GameCube holds the basic information about a gamecube on the gameboard.
+ * Variables: (String) currentValue and a list of possible values (also strings) for the cube.
  */
 
-public class GameCube {
-    private int row;
-    private int column;
-    private List<String> values;
+class GameCube {
     private String currentValue;
-    private boolean locked;
+    private List<String> values;
 
-    public GameCube(List<String> values) {
+    GameCube(List<String> values) {
         this.values = values;
         rollDice();
     }
 
-    public boolean isLocked() {
-        return locked;
-    }
-
-    public void setLocked(boolean locked) {
-        this.locked = locked;
-    }
-
-    public int getRow() {
-        return row;
-    }
-
-    public void setRow(int row) {
-        this.row = row;
-    }
-
-    public int getColumn() {
-        return column;
-    }
-
-    public void setColumn(int column) {
-        this.column = column;
-    }
-
-    public List<String> getValues() {
-        return values;
-    }
-
-    public void setValues(List<String> values) {
-        this.values = values;
-    }
-
-    public String getCurrentValue() {
+    String getCurrentValue() {
         return currentValue;
     }
 
-    public void setCurrentValue(String currentValue) {
+    private void setCurrentValue(String currentValue) {
         this.currentValue = currentValue;
     }
 
-    public String rollDice() {
-        if(!isLocked()) {
-            Collections.shuffle(values);
-            setCurrentValue(values.get(0));
-        }
-        return currentValue;
+    private void rollDice() {
+        Collections.shuffle(values);
+        setCurrentValue(values.get(0));
     }
 }
