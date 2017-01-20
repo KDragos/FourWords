@@ -2,8 +2,10 @@ package com.kristindragos.fourwords;
 
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
 
 import org.json.JSONException;
@@ -25,10 +27,18 @@ public class DictionaryDelegate extends AppCompatActivity {
     private static String TAG = "DictionaryDelegate";
     protected ArrayAdapter adapter;
     protected ArrayList<String> previousWords;
+    private int numberOfNonWords = 0;
+    private View viewForMessaging;
+    private PlayGameActivity activity;
 
-    public void isInDictionary(String word, ArrayAdapter adapter, ArrayList<String> previousWords) {
+    public DictionaryDelegate(PlayGameActivity act) {
+        this.activity = act;
+    }
+
+    public void isInDictionary(String word, ArrayAdapter adapter, ArrayList<String> previousWords, View view) {
         this.adapter = adapter;
         this.previousWords = previousWords;
+        viewForMessaging = view;
         FetchDictionaryDataTask dictionaryDataTask = new FetchDictionaryDataTask();
         dictionaryDataTask.execute(word);
 
@@ -111,7 +121,14 @@ public class DictionaryDelegate extends AppCompatActivity {
             if (result > 0 && !previousWords.contains(currentWord)) {
                 previousWords.add(currentWord);
                 adapter.notifyDataSetChanged();
+
+                activity.checkFourWords();
             }
+            if (result == 0) {
+                numberOfNonWords++;
+                createErrorMessage(currentWord);
+            }
+
         }
 
     }
@@ -125,4 +142,11 @@ public class DictionaryDelegate extends AppCompatActivity {
         return this.previousWords;
     }
 
+    public int getNumberOfNonWords() {
+        return this.numberOfNonWords;
+    }
+
+    public void createErrorMessage(String currentWord) {
+        Snackbar.make(viewForMessaging, currentWord + " is not in the dictionary.", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+    }
 }

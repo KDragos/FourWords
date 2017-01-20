@@ -35,7 +35,7 @@
     </ListView>
 
     <Button
-        android:text="Start Solo Game"
+        android:text="Start Game"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/btn_solo_game"
@@ -45,14 +45,14 @@
         android:onClick="startSoloGame" />
 
     <Button
-        android:text="Random Opponent"
+        android:text="Rules"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="47dp"
-        android:id="@+id/btn_start_random_game"
-        android:onClick="startRandomGame" />
+        android:id="@+id/btn_rules"
+        android:onClick="showRules" />
 
     <Space
         android:layout_width="match_parent"

@@ -5,4 +5,13 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="action_settings">Settings</string>
+    <string name="action_share">Share</string>
+    <string name="description_rules">FourWords is a word creation game that is going to constantly keep you on your toes.</string>
+    <string name="rules_a">Tap the buttons to create a word.</string>
+    <string name="rules_b">Hit score to score the word and add it to your word list.</string>
+    <string name="rules_c">If you make a mistake, hit clear to start your word over.</string>
+    <string name="rules_d">After you enter four words, your game board will shuffle.</string>
+    <string name="rules_e">You have three minutes to create as many words as you can. The longer the word, the more points it\'s worth.</string>
+    <string name="rules_f">Be careful though. Enter a word that\'s not in the dictionary, you\'ll lose a point.</string>
+
 </resources>

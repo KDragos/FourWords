@@ -48,7 +48,6 @@ public class GameBoard {
         board.add(1, row2);
         board.add(2, row3);
         board.add(3, row4);
-
     }
 
     // Creates the 16 dice.

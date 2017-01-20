@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_final_game_score"
     android:layout_width="match_parent"
@@ -14,92 +14,99 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_alignParentStart="true">
 
-        <TextView
-            android:text="WIN!"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/tv_result"
-            android:layout_weight="1"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-            android:textAlignment="center"
-            android:textStyle="normal|bold"
-            android:textAllCaps="true" />
     </LinearLayout>
+
+    <Button
+        android:text="Play Again"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_playAgain"
+        android:onClick="playAgain"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:text="50"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_your_score"
+        android:layout_weight="1"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/tv_label_your_best_score"
+        android:layout_marginStart="11dp" />
+
+
+    <TextView
+        android:text="5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_your_non_word_count"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:textSize="24sp"
+        android:layout_below="@+id/tv_your_score"
+        android:layout_alignStart="@+id/tv_your_score" />
+
+    <TextView
+        android:text="Slytherin, Gryfindor, Plays, Liam"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_your_best_word_score"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:textSize="24sp"
+        android:layout_marginTop="18dp"
+        android:layout_below="@+id/tv_your_non_word_count"
+        android:layout_alignStart="@+id/tv_your_non_word_count" />
+
+    <TextView
+        android:text="Number of Non-Words:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_label_your_non_words"
+        android:textAlignment="center"
+        android:layout_alignTop="@+id/tv_your_non_word_count"
+        android:layout_toStartOf="@+id/tv_your_non_word_count" />
+
+    <TextView
+        android:text="Your Best Word(s):"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_label_your_best_score"
+        android:textAlignment="center"
+        android:layout_alignBaseline="@+id/tv_your_best_word_score"
+        android:layout_alignBottom="@+id/tv_your_best_word_score"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:text="Your Score:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_label_your_score"
+        android:textSize="18sp"
+        android:layout_alignParentTop="true"
+        android:layout_alignEnd="@+id/tv_label_your_best_score"
+        android:layout_marginEnd="11dp" />
 
     <TextView
         android:text="Your Words:"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/tv_label_your_words" />
+        android:id="@+id/tv_label_your_words"
+        android:layout_below="@+id/tv_your_best_word_score"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="21dp" />
 
     <ListView
         android:layout_width="match_parent"
         android:id="@+id/lv_your_words"
-        android:layout_height="125dp" />
+        android:layout_height="200dp"
+        android:layout_above="@+id/btn_playAgain"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/tv_label_your_words" />
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
 
-        <TextView
-            android:text="Your Score:"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/tv_label_your_score"
-            android:layout_weight="1"
-            android:textAlignment="center" />
-
-        <TextView
-            android:text="50"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/tv_your_score"
-            android:layout_weight="1"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
-    </LinearLayout>
-
-    <TextView
-        android:text="Opponent's Words"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/tv_label_opponent_words"
-        android:layout_marginTop="10dp" />
-
-    <ListView
-        android:layout_width="match_parent"
-        android:id="@+id/lv_opponent_words"
-        android:layout_height="125dp" />
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:text="Opponent Score:"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/tv_label_opponent_score"
-            android:layout_weight="1"
-            android:textAlignment="center" />
-
-        <TextView
-            android:text="40"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/tv_opponent_score"
-            android:layout_weight="1"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
-    </LinearLayout>
-
-    <Button
-        android:text="Rematch"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/btn_rematch"
-        android:onClick="playAgain" />
-
-</LinearLayout>
+</RelativeLayout>
